@@ -123,7 +123,7 @@ for i, loc in enumerate(locations):
                 title = {'text': "<b>Filled Capacity</b><br><span style='font-size:0.8em;color:gray'>Barrels per Day</span>"},
                 gauge = {
                     'axis': {'range': [None, MAX_VOLUME], 'tickwidth': 1, 'tickcolor': "white"},
-                    'bar': {'color': "#FF4B4B"},
+                    'bar': {'color': "#4b9fff"},   #FF4B4B
                     'bgcolor': "#262730",
                     'borderwidth': 2,
                     'bordercolor': "#464B5C",
@@ -527,6 +527,7 @@ for i, loc in enumerate(locations):
 #             )
 #         else:
 #             st.caption("No active offers on the block.")
+
 
 
 
