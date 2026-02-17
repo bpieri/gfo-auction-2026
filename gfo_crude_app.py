@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.graph_objects as go
 
 # --- CONFIGURATION & STYLING ---
 # st.set_page_config(page_title="GFO Auction Block", layout="wide", page_icon="🛢️")
@@ -170,15 +171,72 @@ for i, loc in enumerate(locations):
         # st.divider()
 
         # --- RESPONSIVE CAPACITY VISUALIZER ---
-        st.write(f"**Capacity Usage ({int(pct_full * 100)}%)**")
-        st.progress(pct_full)
+        # st.write(f"**Capacity Usage ({int(pct_full * 100)}%)**")
+        # st.progress(pct_full)
 
-        # Use 2 columns instead of 3 for mobile readability
-        c1, c2 = st.columns(2)
-        with c1:
-            st.metric("Filled", f"{accepted_vol:,} bpd")
-        with c2:
-            st.metric("Remaining", f"{remaining:,} bpd", delta_color="normal")
+        # # Use 2 columns instead of 3 for mobile readability
+        # c1, c2 = st.columns(2)
+        # with c1:
+        #     st.metric("Filled", f"{accepted_vol:,} bpd")
+        # with c2:
+        #     st.metric("Remaining", f"{remaining:,} bpd", delta_color="normal")
+
+        # st.divider()
+
+        # --- GAUGE VISUALIZER ---
+        # Create 2 columns: Gauge on left, Stats on right
+        g_col1, g_col2 = st.columns([1, 1])
+        
+        with g_col1:
+            # Create the Gauge Chart
+            fig = go.Figure(go.Indicator(
+                mode = "gauge+number",
+                value = accepted_vol,
+                domain = {'x': [0, 1], 'y': [0, 1]},
+                title = {'text': "<b>Filled Capacity</b><br><span style='font-size:0.8em;color:gray'>Barrels per Day</span>"},
+                gauge = {
+                    'axis': {'range': [None, MAX_VOLUME], 'tickwidth': 1, 'tickcolor': "white"},
+                    'bar': {'color': "#FF4B4B"},  # The needle/fill color (Red)
+                    'bgcolor': "#262730",         # Dark background for the dial
+                    'borderwidth': 2,
+                    'bordercolor': "#464B5C",
+                    'steps': [
+                        {'range': [0, MAX_VOLUME], 'color': "#262730"} # Background of the arc
+                    ],
+                    'threshold': {
+                        'line': {'color': "red", 'width': 4},
+                        'thickness': 0.75,
+                        'value': MAX_VOLUME
+                    }
+                }
+            ))
+            
+            # Make it look good in Dark Mode
+            fig.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)", # Transparent background
+                font={'color': "white", 'family': "Arial"},
+                margin=dict(l=30, r=30, t=50, b=10),
+                height=250 # Keep it compact
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
+        with g_col2:
+            st.write("### Space Remaining")
+            # We use a container to vertically center this info if needed
+            st.markdown(f"""
+            <div style="border: 1px solid #464B5C; border-radius: 10px; padding: 20px; text-align: center; background-color: #262730;">
+                <h2 style="color: #2ECC71; margin:0;">{remaining:,}</h2>
+                <p style="color: #FAFAFA; margin:0;">Barrels Available</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.write("") # Spacer
+            if pct_full >= 1.0:
+                st.error("⛔ LOCATION FULL")
+            elif pct_full >= 0.8:
+                st.warning("⚠️ NEAR CAPACITY")
+            else:
+                st.success("✅ OPEN FOR BIDS")
 
         st.divider()
 
@@ -242,3 +300,4 @@ for i, loc in enumerate(locations):
             )
         else:
             st.caption("No active offers on the block.")
+
