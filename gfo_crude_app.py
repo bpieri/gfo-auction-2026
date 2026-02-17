@@ -31,7 +31,7 @@ st.markdown("""
 if 'auction_data' not in st.session_state:
     st.session_state.auction_data = [
         {"ID": 1, "Location": "Victoria, Texas", "Price": 2.50, "Volume": 5000, "Term": "1 month", "User": "Seller A", "Status": "Pending"},
-        {"ID": 2, "Location": "Victoria, Texas", "Price": 2.10, "Volume": 12000, "Term": "3 months", "User": "Seller B", "Status": "Accepted"},
+        {"ID": 2, "Location": "Victoria, Texas", "Price": 2.10, "Volume": 3600, "Term": "3 months", "User": "Seller B", "Status": "Accepted"},
         {"ID": 3, "Location": "Stampede, North Dakota", "Price": -4.00, "Volume": 2000, "Term": "6 months", "User": "Seller C", "Status": "Pending"},
     ]
 
@@ -527,5 +527,6 @@ for i, loc in enumerate(locations):
 #             )
 #         else:
 #             st.caption("No active offers on the block.")
+
 
 
