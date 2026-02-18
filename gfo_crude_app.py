@@ -18,7 +18,7 @@ st.markdown("""
     
     /* FIX: Force all Input Labels to be White and Bold */
     div[data-testid="stWidgetLabel"] p {
-        color: #FAFAFA !important;
+        color: #F1C40F !important;
         font-weight: 600; /* Make them slightly bold */
     }
     
@@ -760,6 +760,7 @@ for i, loc in enumerate(locations):
 #             )
 #         else:
 #             st.caption("No active offers on the block.")
+
 
 
 
