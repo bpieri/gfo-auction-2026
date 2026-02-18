@@ -11,21 +11,48 @@ st.set_page_config(
 )
 
 # Custom CSS
+# st.markdown("""
+#     <style>
+#     /* General App Styling */
+#     .stApp { background-color: #0E1117; color: #FAFAFA; }
+    
+#     /* FIX: Force all Input Labels to be YELLOW and Bold */
+#     div[data-testid="stWidgetLabel"] p {
+#         color: #F1C40F !important; /* <--- CHANGED TO YELLOW */
+#         font-weight: 600; 
+#     }
+    
+#     /* Yellow Metric Values */
+#     div[data-testid="stMetricValue"] { color: #F1C40F !important; }
+    
+#     /* Tabs */
+#     button[data-baseweb="tab"] { color: #5D6D7E; background-color: transparent; }
+#     button[data-baseweb="tab"][aria-selected="true"] {
+#         color: #FFFFFF !important;
+#         border-bottom-color: #FF4B4B !important;
+#     }
+#     </style>
+#     """, unsafe_allow_html=True)
+
+# Custom CSS
 st.markdown("""
     <style>
-    /* General App Styling */
+    /* 1. Force the Main Background to Dark */
     .stApp { background-color: #0E1117; color: #FAFAFA; }
     
-    /* FIX: Force all Input Labels to be YELLOW and Bold */
-    div[data-testid="stWidgetLabel"] p {
-        color: #F1C40F !important; /* <--- CHANGED TO YELLOW */
-        font-weight: 600; 
+    /* 2. THE FIX: Target ALL labels using a Wildcard (*) selector */
+    /* This forces every element inside the label container to be Yellow */
+    div[data-testid="stWidgetLabel"], 
+    div[data-testid="stWidgetLabel"] * {
+        color: #F1C40F !important; /* Bright Yellow */
+        font-weight: 700 !important; /* Bold */
+        font-size: 16px !important; /* Make it slightly larger */
     }
     
-    /* Yellow Metric Values */
+    /* 3. Metric Values (Big Numbers) */
     div[data-testid="stMetricValue"] { color: #F1C40F !important; }
     
-    /* Tabs */
+    /* 4. Tabs Styling */
     button[data-baseweb="tab"] { color: #5D6D7E; background-color: transparent; }
     button[data-baseweb="tab"][aria-selected="true"] {
         color: #FFFFFF !important;
@@ -33,6 +60,9 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
+
+
+
 
 # --- DATA INITIALIZATION ---
 if 'auction_data' not in st.session_state:
@@ -990,6 +1020,7 @@ for i, loc in enumerate(locations):
 #             )
 #         else:
 #             st.caption("No active offers on the block.")
+
 
 
 
